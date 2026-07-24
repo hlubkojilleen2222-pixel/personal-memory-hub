@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทความทั้งหมด | Personal Memory & Article Hub</title>
+  <meta name="description" content="คลังบทความและเรื่องเล่าสไตล์ Minimal รวบรวมมุมมองชีวิต เทคโนโลยี การเดินทาง และความคิดสร้างสรรค์">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            amber: { 50: '#fffbeb', 100: '#fef3c7', 500: '#f59e0b', 600: '#d97706', 700: '#b45309' }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/theme.js"></script>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-500/20 selection:text-amber-700">
+
+  <!-- Navigation -->
+  <header class="sticky top-0 z-40 w-full glass-nav border-b border-stone-200/60 dark:border-zinc-800/80 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5 group">
+        <div class="w-8 h-8 rounded-full bg-amber-600 flex items-center justify-center text-white font-serif-title font-bold text-sm shadow-sm group-hover:scale-105 transition-transform">
+          M
+        </div>
+        <span class="font-serif-title text-lg font-bold tracking-tight group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+          Memories & Ink.
+        </span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="index.html" class="nav-link text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">หน้าแรก (Home)</a>
+        <a href="articles.html" class="nav-link text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">บทความ (Articles)</a>
+        <a href="memories.html" class="nav-link text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">ความทรงจำ (Memories)</a>
+        <a href="about.html" class="nav-link text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">เกี่ยวกับฉัน (About)</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <button class="theme-toggle-btn p-2 rounded-full text-stone-600 dark:text-zinc-300 hover:bg-stone-200/60 dark:hover:bg-zinc-800 transition-colors">
+          <svg class="w-5 h-5 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="w-5 h-5 block dark:hidden text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-stone-600 dark:text-zinc-300 hover:bg-stone-200/60 dark:hover:bg-zinc-800 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mobile-menu-drawer" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex flex-col justify-end sm:justify-center p-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-2xl border border-stone-200 dark:border-zinc-800 max-w-sm w-full mx-auto">
+      <div class="flex items-center justify-between pb-4 border-b border-stone-100 dark:border-zinc-800 mb-4">
+        <span class="font-serif-title font-bold text-lg">เมนูหลัก</span>
+        <button id="close-menu-btn" class="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-zinc-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <nav class="flex flex-col gap-3 font-medium text-base">
+        <a href="index.html" class="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-zinc-800 transition-colors">หน้าแรก (Home)</a>
+        <a href="articles.html" class="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-zinc-800 transition-colors">บทความ (Articles)</a>
+        <a href="memories.html" class="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-zinc-800 transition-colors">ความทรงจำ (Memories)</a>
+        <a href="about.html" class="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-zinc-800 transition-colors">เกี่ยวกับฉัน (About)</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+    
+    <!-- Page Header -->
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <h1 class="text-3xl sm:text-4xl font-bold font-serif-title tracking-tight mb-3">
+        คลังบทความและเรื่องเล่า
+      </h1>
+      <p class="text-stone-600 dark:text-zinc-400 text-sm sm:text-base">
+        อ่านบทความ มุมมองชีวิต เทคโนโลยี และข้อคิดต่างๆ กดคลิกที่การ์ดเพื่ออ่านฉบับเต็มได้ทันที
+      </p>
+    </div>
+
+    <!-- Search & Filters Toolbar -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-stone-200/80 dark:border-zinc-800">
+      
+      <!-- Category Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
+        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-amber-600 text-white transition-all" data-category="All">
+          ทั้งหมด (All)
+        </button>
+        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all" data-category="Life">
+          🌿 Life
+        </button>
+        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all" data-category="Tech">
+          💻 Tech
+        </button>
+        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all" data-category="Travel">
+          ✈️ Travel
+        </button>
+        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all" data-category="Thoughts">
+          💡 Thoughts
+        </button>
+      </div>
+
+      <!-- Real-time Search Bar -->
+      <div class="relative w-full md:w-72">
+        <input id="article-search-input" type="text" placeholder="ค้นหาชื่อบทความ หรือคำสำคัญ..." 
+               class="w-full pl-10 pr-4 py-2 rounded-full border border-stone-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-stone-800 dark:text-zinc-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all">
+        <svg class="w-4 h-4 absolute left-3.5 top-2.5 text-stone-400 dark:text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </div>
+
+    </div>
+
+    <!-- Article Grid Container -->
+    <div id="articles-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      <!-- Injected by articles.js -->
+    </div>
+
+  </main>
+
+  <!-- Article Detail Modal -->
+  <div id="article-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div id="article-modal-content" class="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-stone-200 dark:border-zinc-800 my-auto">
+      <!-- Injected dynamically -->
+    </div>
+  </div>
+
+  <footer class="border-t border-stone-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-10 text-xs text-stone-500 dark:text-zinc-400 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="font-serif-title font-bold text-stone-800 dark:text-zinc-200 text-sm">Memories & Ink.</span>
+        <span>© 2026 Personal Blog & Memory Hub</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="https://github.com" target="_blank" rel="noopener" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">GitHub</a>
+        <a href="https://twitter.com" target="_blank" rel="noopener" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">X (Twitter)</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Instagram</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/articles.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initArticlesPage();
+    });
+  </script>
+</body>
+</html>
