@@ -114,7 +114,7 @@
         <i class="fa-solid fa-camera-retro text-amber-600"></i> คลังภาพและบันทึกความทรงจำ
       </h1>
       <p class="text-stone-600 dark:text-zinc-400 text-sm sm:text-base">
-        รวบรวมภาพถ่ายสถานที่ประทับใจ เรื่องราวการเดินทาง และช่วงเวลาดีๆ สไตล์ Minimal Clean
+        คลิกที่รูปภาพเพื่อแสดงผลรูปขนาดใหญ่เต็มจอ พร้อมเรื่องราวสั้นๆ กำกับด้านข้าง
       </p>
     </div>
 
@@ -143,6 +143,69 @@
     </div>
 
   </main>
+
+  <!-- Full-Screen Split Memory Viewer Modal -->
+  <div id="fullscreen-memory-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl hidden items-center justify-center p-4 sm:p-6 md:p-8 animate__animated animate__fadeIn">
+    
+    <!-- Top Floating Controls -->
+    <div class="absolute top-4 right-4 z-20 flex items-center gap-3">
+      <button onclick="closeFullscreenMemoryViewer()" class="text-stone-300 hover:text-white p-3 rounded-full bg-stone-800/80 hover:bg-amber-600 transition-all shadow-lg backdrop-blur-md">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Left / Right Floating Nav Buttons -->
+    <button onclick="prevFullscreenMemory()" class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-300 hover:text-white p-3.5 rounded-full bg-stone-800/80 hover:bg-amber-600 transition-all z-20 shadow-lg backdrop-blur-md">
+      <i class="fa-solid fa-chevron-left text-lg"></i>
+    </button>
+    <button onclick="nextFullscreenMemory()" class="absolute right-4 top-1/2 -translate-y-1/2 text-stone-300 hover:text-white p-3.5 rounded-full bg-stone-800/80 hover:bg-amber-600 transition-all z-20 shadow-lg backdrop-blur-md">
+      <i class="fa-solid fa-chevron-right text-lg"></i>
+    </button>
+
+    <!-- Split Viewer Card -->
+    <div class="max-w-5xl w-full bg-stone-900 rounded-3xl overflow-hidden shadow-2xl border border-zinc-800 flex flex-col md:flex-row max-h-[90vh] my-auto animate__animated animate__zoomIn">
+      
+      <!-- Left Pane: Full Image -->
+      <div class="flex-1 bg-black flex items-center justify-center p-4 relative overflow-hidden min-h-[280px]">
+        <img id="fs-memory-img" src="" alt="" class="max-h-[60vh] md:max-h-[80vh] w-auto h-auto object-contain rounded-xl shadow-2xl">
+      </div>
+
+      <!-- Right Pane: Text Details & Story Caption -->
+      <div class="w-full md:w-96 p-6 sm:p-8 bg-zinc-900 text-white flex flex-col justify-between border-t md:border-t-0 md:border-l border-zinc-800 overflow-y-auto">
+        <div>
+          <!-- Category & Date Header -->
+          <div class="flex items-center justify-between text-xs font-semibold mb-4">
+            <span id="fs-memory-category" class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">Category</span>
+            <span id="fs-memory-date" class="text-stone-400">📅 Date</span>
+          </div>
+
+          <!-- Title -->
+          <h2 id="fs-memory-title" class="text-2xl font-bold font-serif-title text-white mb-2 leading-tight">Title</h2>
+          
+          <!-- Location Badge -->
+          <div id="fs-memory-location" class="text-xs text-amber-400 font-medium mb-6">
+            📍 Location
+          </div>
+
+          <!-- Story Narrative Caption -->
+          <div class="border-t border-zinc-800 pt-4 mb-6">
+            <h4 class="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">เรื่องราวความทรงจำ</h4>
+            <p id="fs-memory-caption" class="text-stone-300 text-sm leading-relaxed whitespace-pre-line">
+              Caption details...
+            </p>
+          </div>
+        </div>
+
+        <!-- Controls Footer Hint -->
+        <div class="pt-4 border-t border-zinc-800 text-[11px] text-stone-500 flex items-center justify-between">
+          <span><i class="fa-solid fa-keyboard"></i> ใช้ปุ่ม ← / → สลับภาพ</span>
+          <span>Esc ปิด</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
 
   <footer class="border-t border-stone-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-10 text-xs text-stone-500 dark:text-zinc-400 transition-colors">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
