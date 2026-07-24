@@ -118,6 +118,20 @@ function openLightbox(index) {
   activeMemoryIndex = index;
 
   const mem = filteredMemories[activeMemoryIndex];
+
+  // If jQuery & Colorbox plugin loaded, trigger Colorbox popup!
+  if (typeof $ !== 'undefined' && typeof $.colorbox === 'function') {
+    $.colorbox({
+      href: mem.image,
+      title: `<span class="font-serif"><i class="fa-solid fa-camera"></i> ${mem.title} (${mem.date})</span> - <span class="text-xs font-sans text-stone-300">${mem.caption}</span>`,
+      maxWidth: '90%',
+      maxHeight: '90%',
+      transition: 'elastic',
+      speed: 350,
+      opacity: 0.85
+    });
+  }
+
   const modal = document.getElementById('lightbox-modal');
   const imgEl = document.getElementById('lightbox-img');
   const titleEl = document.getElementById('lightbox-title');
@@ -130,8 +144,8 @@ function openLightbox(index) {
   imgEl.src = mem.image;
   imgEl.alt = mem.title;
   titleEl.textContent = mem.title;
-  dateEl.textContent = `📅 ${mem.date}`;
-  locEl.textContent = `📍 ${mem.location}`;
+  dateEl.innerHTML = `<i class="fa-solid fa-calendar-days text-amber-500"></i> ${mem.date}`;
+  locEl.innerHTML = `<i class="fa-solid fa-location-dot text-amber-500"></i> ${mem.location}`;
   captionEl.textContent = mem.caption;
 
   modal.classList.remove('hidden');

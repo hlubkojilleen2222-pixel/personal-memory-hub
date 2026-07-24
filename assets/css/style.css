@@ -29,13 +29,11 @@ body {
   font-family: 'Playfair Display', 'Sarabun', serif;
 }
 
-/* Light Theme Defaults */
 body {
   background-color: var(--bg-primary-light);
   color: var(--text-primary-light);
 }
 
-/* Dark Theme Overrides */
 .dark body {
   background-color: var(--bg-primary-dark);
   color: var(--text-primary-dark);
@@ -89,15 +87,6 @@ body {
 .masonry-item {
   break-inside: avoid;
   margin-bottom: 1.25rem;
-}
-
-/* Lightbox Modal Animation */
-.modal-backdrop {
-  transition: opacity 0.25s ease-in-out;
-}
-
-.modal-content {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease-in-out;
 }
 
 /* Custom Scrollbar */
@@ -161,4 +150,90 @@ body {
 .prose-custom li {
   margin-bottom: 0.4rem;
   line-height: 1.7;
+}
+
+/* -----------------------------------------------------------
+   Slick Carousel Theme Overrides (Minimal Aesthetic)
+----------------------------------------------------------- */
+.slick-slider {
+  margin-bottom: 2rem;
+}
+
+.slick-prev, .slick-next {
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.5) !important;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.slick-prev {
+  left: 10px;
+}
+
+.slick-next {
+  right: 10px;
+}
+
+.slick-prev:hover, .slick-next:hover {
+  background: rgba(217, 119, 6, 0.9) !important;
+}
+
+.slick-prev:before, .slick-next:before {
+  font-family: 'FontAwesome';
+  font-size: 16px;
+  opacity: 1;
+  color: #ffffff;
+}
+
+.slick-prev:before {
+  content: "\f053";
+}
+
+.slick-next:before {
+  content: "\f054";
+}
+
+.slick-dots li button:before {
+  font-size: 10px;
+  color: #d97706;
+  opacity: 0.4;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #d97706;
+  opacity: 1;
+}
+
+/* -----------------------------------------------------------
+   Colorbox Aesthetic Overrides
+----------------------------------------------------------- */
+#colorbox, #cboxOverlay, #cboxWrapper {
+  z-index: 99999 !important;
+}
+
+#cboxOverlay {
+  background: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(8px);
+}
+
+#colorbox {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+#cboxContent {
+  background: #1c1c20;
+  color: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #27272a;
+}
+
+#cboxTitle {
+  bottom: 12px;
+  left: 20px;
+  color: #fbbf24;
+  font-weight: bold;
 }

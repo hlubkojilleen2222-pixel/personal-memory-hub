@@ -28,6 +28,16 @@
       }
     }
   </script>
+
+  <!-- 1. FontAwesome 6.5.1 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- 2. Animate.css 4.1.1 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <!-- 3. Slick Carousel CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+  <!-- 4. Colorbox CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.colorbox/1.6.4/example1/colorbox.min.css">
+
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="assets/js/theme.js"></script>
 </head>
@@ -37,8 +47,8 @@
   <header class="sticky top-0 z-40 w-full glass-nav border-b border-stone-200/60 dark:border-zinc-800/80 transition-colors">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-2.5 group">
-        <div class="w-8 h-8 rounded-full bg-amber-600 flex items-center justify-center text-white font-serif-title font-bold text-sm shadow-sm group-hover:scale-105 transition-transform">
-          M
+        <div class="w-9 h-9 rounded-full bg-amber-600 flex items-center justify-center text-white font-serif-title font-bold text-sm shadow-sm group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-feather-pointed"></i>
         </div>
         <span class="font-serif-title text-lg font-bold tracking-tight group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
           Memories & Ink.
@@ -46,19 +56,27 @@
       </a>
 
       <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-        <a href="index.html" class="nav-link text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">หน้าแรก (Home)</a>
-        <a href="articles.html" class="nav-link text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">บทความ (Articles)</a>
-        <a href="memories.html" class="nav-link text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">ความทรงจำ (Memories)</a>
-        <a href="about.html" class="nav-link text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">เกี่ยวกับฉัน (About)</a>
+        <a href="index.html" class="nav-link text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors flex items-center gap-2">
+          <i class="fa-solid fa-house"></i> หน้าแรก (Home)
+        </a>
+        <a href="articles.html" class="nav-link text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors flex items-center gap-2">
+          <i class="fa-solid fa-book-open"></i> บทความ (Articles)
+        </a>
+        <a href="memories.html" class="nav-link text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors flex items-center gap-2">
+          <i class="fa-solid fa-camera"></i> ความทรงจำ (Memories)
+        </a>
+        <a href="about.html" class="nav-link text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors flex items-center gap-2">
+          <i class="fa-solid fa-user"></i> เกี่ยวกับฉัน (About)
+        </a>
       </nav>
 
       <div class="flex items-center gap-3">
-        <button class="theme-toggle-btn p-2 rounded-full text-stone-600 dark:text-zinc-300 hover:bg-stone-200/60 dark:hover:bg-zinc-800 transition-colors">
-          <svg class="w-5 h-5 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-          <svg class="w-5 h-5 block dark:hidden text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        <button class="theme-toggle-btn p-2.5 rounded-full text-stone-600 dark:text-zinc-300 hover:bg-stone-200/60 dark:hover:bg-zinc-800 transition-colors">
+          <i class="fa-solid fa-sun text-amber-400 text-lg hidden dark:block"></i>
+          <i class="fa-solid fa-moon text-stone-700 text-lg block dark:hidden"></i>
         </button>
         <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-stone-600 dark:text-zinc-300 hover:bg-stone-200/60 dark:hover:bg-zinc-800 transition-colors">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+          <i class="fa-solid fa-bars text-xl"></i>
         </button>
       </div>
     </div>
@@ -66,28 +84,36 @@
 
   <!-- Mobile Drawer -->
   <div id="mobile-menu-drawer" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex flex-col justify-end sm:justify-center p-4">
-    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-2xl border border-stone-200 dark:border-zinc-800 max-w-sm w-full mx-auto">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-2xl border border-stone-200 dark:border-zinc-800 max-w-sm w-full mx-auto animate__animated animate__fadeInUp">
       <div class="flex items-center justify-between pb-4 border-b border-stone-100 dark:border-zinc-800 mb-4">
         <span class="font-serif-title font-bold text-lg">เมนูหลัก</span>
         <button id="close-menu-btn" class="p-2 rounded-full hover:bg-stone-100 dark:hover:bg-zinc-800">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
       <nav class="flex flex-col gap-3 font-medium text-base">
-        <a href="index.html" class="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-zinc-800 transition-colors">หน้าแรก (Home)</a>
-        <a href="articles.html" class="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-zinc-800 transition-colors">บทความ (Articles)</a>
-        <a href="memories.html" class="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-zinc-800 transition-colors">ความทรงจำ (Memories)</a>
-        <a href="about.html" class="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-zinc-800 transition-colors">เกี่ยวกับฉัน (About)</a>
+        <a href="index.html" class="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-zinc-800 transition-colors flex items-center gap-3">
+          <i class="fa-solid fa-house text-amber-600"></i> หน้าแรก (Home)
+        </a>
+        <a href="articles.html" class="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-zinc-800 transition-colors flex items-center gap-3">
+          <i class="fa-solid fa-book-open text-amber-600"></i> บทความ (Articles)
+        </a>
+        <a href="memories.html" class="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-zinc-800 transition-colors flex items-center gap-3">
+          <i class="fa-solid fa-camera text-amber-600"></i> ความทรงจำ (Memories)
+        </a>
+        <a href="about.html" class="px-4 py-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-zinc-800 transition-colors flex items-center gap-3">
+          <i class="fa-solid fa-user text-amber-600"></i> เกี่ยวกับฉัน (About)
+        </a>
       </nav>
     </div>
   </div>
 
-  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full animate__animated animate__fadeIn">
     
     <!-- Page Header -->
     <div class="text-center max-w-2xl mx-auto mb-12">
-      <h1 class="text-3xl sm:text-4xl font-bold font-serif-title tracking-tight mb-3">
-        คลังบทความและเรื่องเล่า
+      <h1 class="text-3xl sm:text-4xl font-bold font-serif-title tracking-tight mb-3 flex items-center justify-center gap-3">
+        <i class="fa-solid fa-newspaper text-amber-600"></i> คลังบทความและเรื่องเล่า
       </h1>
       <p class="text-stone-600 dark:text-zinc-400 text-sm sm:text-base">
         อ่านบทความ มุมมองชีวิต เทคโนโลยี และข้อคิดต่างๆ กดคลิกที่การ์ดเพื่ออ่านฉบับเต็มได้ทันที
@@ -99,20 +125,20 @@
       
       <!-- Category Tabs -->
       <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
-        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-amber-600 text-white transition-all" data-category="All">
-          ทั้งหมด (All)
+        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-amber-600 text-white transition-all flex items-center gap-1.5" data-category="All">
+          <i class="fa-solid fa-border-all"></i> ทั้งหมด
         </button>
-        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all" data-category="Life">
-          🌿 Life
+        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all flex items-center gap-1.5" data-category="Life">
+          <i class="fa-solid fa-leaf"></i> Life
         </button>
-        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all" data-category="Tech">
-          💻 Tech
+        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all flex items-center gap-1.5" data-category="Tech">
+          <i class="fa-solid fa-laptop-code"></i> Tech
         </button>
-        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all" data-category="Travel">
-          ✈️ Travel
+        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all flex items-center gap-1.5" data-category="Travel">
+          <i class="fa-solid fa-plane"></i> Travel
         </button>
-        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all" data-category="Thoughts">
-          💡 Thoughts
+        <button class="category-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all flex items-center gap-1.5" data-category="Thoughts">
+          <i class="fa-solid fa-lightbulb"></i> Thoughts
         </button>
       </div>
 
@@ -120,9 +146,7 @@
       <div class="relative w-full md:w-72">
         <input id="article-search-input" type="text" placeholder="ค้นหาชื่อบทความ หรือคำสำคัญ..." 
                class="w-full pl-10 pr-4 py-2 rounded-full border border-stone-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-stone-800 dark:text-zinc-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all">
-        <svg class="w-4 h-4 absolute left-3.5 top-2.5 text-stone-400 dark:text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-        </svg>
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-stone-400 dark:text-zinc-500 text-xs"></i>
       </div>
 
     </div>
@@ -136,7 +160,7 @@
 
   <!-- Article Detail Modal -->
   <div id="article-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4 sm:p-6 overflow-y-auto">
-    <div id="article-modal-content" class="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-stone-200 dark:border-zinc-800 my-auto">
+    <div id="article-modal-content" class="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-stone-200 dark:border-zinc-800 my-auto animate__animated animate__zoomIn">
       <!-- Injected dynamically -->
     </div>
   </div>
@@ -148,13 +172,20 @@
         <span>© 2026 Personal Blog & Memory Hub</span>
       </div>
       <div class="flex items-center gap-6">
-        <a href="https://github.com" target="_blank" rel="noopener" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">GitHub</a>
-        <a href="https://twitter.com" target="_blank" rel="noopener" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">X (Twitter)</a>
-        <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Instagram</a>
-        <a href="admin.html" class="hover:text-amber-600 dark:hover:text-amber-400 font-semibold transition-colors flex items-center gap-1">🔐 Admin</a>
+        <a href="https://github.com" target="_blank" rel="noopener" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors flex items-center gap-1"><i class="fa-brands fa-github"></i> GitHub</a>
+        <a href="https://twitter.com" target="_blank" rel="noopener" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors flex items-center gap-1"><i class="fa-brands fa-x-twitter"></i> X (Twitter)</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors flex items-center gap-1"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        <a href="admin.html" class="hover:text-amber-600 dark:hover:text-amber-400 font-semibold transition-colors flex items-center gap-1"><i class="fa-solid fa-lock text-xs"></i> Admin</a>
       </div>
     </div>
   </footer>
+
+  <!-- jQuery 3.7.1 -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- Slick Carousel JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+  <!-- Colorbox JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.colorbox/1.6.4/jquery.colorbox-min.js"></script>
 
   <script src="assets/js/app.js"></script>
   <script src="assets/js/articles.js"></script>
