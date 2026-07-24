@@ -1,12 +1,19 @@
-// Articles Manager Module
+// Articles Manager Module with LocalStorage Persistence & Admin Hooks
 let allArticles = [];
 let activeCategory = 'All';
 
 async function fetchArticles() {
   try {
+    const localData = localStorage.getItem('custom_articles');
+    if (localData) {
+      allArticles = JSON.parse(localData);
+      return allArticles;
+    }
+
     const res = await fetch('./data/articles.json');
     if (!res.ok) throw new Error('Failed to load articles dataset');
     allArticles = await res.json();
+    localStorage.setItem('custom_articles', JSON.stringify(allArticles));
     return allArticles;
   } catch (err) {
     console.error('Error fetching articles:', err);
@@ -21,7 +28,7 @@ function renderMarkdown(mdText) {
     .replace(/^### (.*$)/gim, '<h3 class="text-lg font-semibold text-amber-700 dark:text-amber-400 mt-4 mb-2">$1</h3>')
     .replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold border-b border-stone-200 dark:border-zinc-700 pb-2 mt-6 mb-3">$1</h2>')
     .replace(/^> (.*$)/gim, '<blockquote class="border-l-4 border-amber-500 pl-4 py-2 my-4 italic bg-amber-500/5 rounded-r">$1</blockquote>')
-    .replace(/\*\*(.* animate-pulse)?\*\*/gim, '<strong>$1</strong>')
+    .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
     .replace(/\*(.*)\*/gim, '<em>$1</em>')
     .replace(/^\- (.*$)/gim, '<li class="ml-4 list-disc">$1</li>')
     .replace(/^\d+\. (.*$)/gim, '<li class="ml-4 list-decimal">$1</li>')
@@ -103,7 +110,6 @@ async function initArticlesPage() {
   const articles = await fetchArticles();
   renderArticlesGrid(articles);
 
-  // Search Listener
   const searchInput = document.getElementById('article-search-input');
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
@@ -111,7 +117,6 @@ async function initArticlesPage() {
     });
   }
 
-  // Category Filter Listener
   const categoryBtns = document.querySelectorAll('.category-filter-btn');
   categoryBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -160,7 +165,6 @@ function openArticleModal(articleId) {
 
   modalContent.innerHTML = `
     <div class="relative">
-      <!-- Cover Header -->
       <div class="h-64 sm:h-80 w-full overflow-hidden rounded-t-2xl relative">
         <img src="${article.coverImage}" alt="${article.title}" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
@@ -180,12 +184,10 @@ function openArticleModal(articleId) {
         </div>
       </div>
 
-      <!-- Article Body -->
       <div class="p-6 sm:p-10 prose-custom text-stone-800 dark:text-zinc-200">
         ${renderMarkdown(article.content)}
       </div>
 
-      <!-- Article Footer / Share -->
       <div class="p-6 border-t border-stone-200 dark:border-zinc-800 flex items-center justify-between bg-stone-50 dark:bg-zinc-900/50 rounded-b-2xl">
         <span class="text-xs text-stone-500 dark:text-zinc-400">แบ่งปันบทความนี้</span>
         <button onclick="copyArticleLink('${article.title}')" class="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-lg transition-colors shadow-sm">
@@ -199,6 +201,24 @@ function openArticleModal(articleId) {
   modal.classList.remove('hidden');
   modal.classList.add('flex');
   document.body.style.overflow = 'hidden';
+
+  // Google Tag (gtag.js) Event Tracking
+  if (typeof window.trackGAEvent === 'function') {
+    window.trackGAEvent('view_article', {
+      article_id: article.id,
+      article_title: article.title,
+      article_category: article.category
+    });
+  }
+
+  // Increment Local Analytics Counter for Admin Dashboard
+  try {
+    const stats = JSON.parse(localStorage.getItem('admin_analytics_stats')) || { articleViews: 0, memoryViews: 0, history: [] };
+    stats.articleViews = (stats.articleViews || 0) + 1;
+    stats.history.unshift({ type: 'Article', title: article.title, time: new Date().toLocaleTimeString('th-TH') });
+    if (stats.history.length > 20) stats.history.pop();
+    localStorage.setItem('admin_analytics_stats', JSON.stringify(stats));
+  } catch (e) { console.error(e); }
 }
 
 function closeArticleModal() {
@@ -232,8 +252,11 @@ function showToast(message) {
 }
 
 // Export to Global Window Scope
+window.fetchArticles = fetchArticles;
+window.renderMarkdown = renderMarkdown;
 window.openArticleModal = openArticleModal;
 window.closeArticleModal = closeArticleModal;
 window.copyArticleLink = copyArticleLink;
 window.initHomeArticles = initHomeArticles;
 window.initArticlesPage = initArticlesPage;
+window.showToast = showToast;

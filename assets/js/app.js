@@ -1,4 +1,4 @@
-// Global App Script
+// Global App Script with Google Analytics (gtag.js) Event Helper
 document.addEventListener('DOMContentLoaded', () => {
   // Active Navigation Link Highlight
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
@@ -29,3 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// Helper for sending custom events to Google Analytics (gtag)
+function trackGAEvent(eventName, params = {}) {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', eventName, params);
+  }
+}
+
+window.trackGAEvent = trackGAEvent;

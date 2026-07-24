@@ -6,6 +6,15 @@
   <title>บทความทั้งหมด | Personal Memory & Article Hub</title>
   <meta name="description" content="คลังบทความและเรื่องเล่าสไตล์ Minimal รวบรวมมุมมองชีวิต เทคโนโลยี การเดินทาง และความคิดสร้างสรรค์">
   
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -142,6 +151,7 @@
         <a href="https://github.com" target="_blank" rel="noopener" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">GitHub</a>
         <a href="https://twitter.com" target="_blank" rel="noopener" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">X (Twitter)</a>
         <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Instagram</a>
+        <a href="admin.html" class="hover:text-amber-600 dark:hover:text-amber-400 font-semibold transition-colors flex items-center gap-1">🔐 Admin</a>
       </div>
     </div>
   </footer>

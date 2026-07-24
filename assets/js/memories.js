@@ -1,13 +1,21 @@
-// Memory Gallery & Lightbox Module
+// Memory Gallery & Lightbox Module with LocalStorage Persistence
 let allMemories = [];
 let activeMemoryIndex = 0;
 let filteredMemories = [];
 
 async function fetchMemories() {
   try {
+    const localData = localStorage.getItem('custom_memories');
+    if (localData) {
+      allMemories = JSON.parse(localData);
+      filteredMemories = [...allMemories];
+      return allMemories;
+    }
+
     const res = await fetch('./data/memories.json');
     if (!res.ok) throw new Error('Failed to load memories dataset');
     allMemories = await res.json();
+    localStorage.setItem('custom_memories', JSON.stringify(allMemories));
     filteredMemories = [...allMemories];
     return allMemories;
   } catch (err) {
@@ -74,7 +82,6 @@ async function initMemoriesPage() {
   await fetchMemories();
   renderMasonryGrid(filteredMemories);
 
-  // Category Filter Listener
   const categoryBtns = document.querySelectorAll('.memory-filter-btn');
   categoryBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -96,7 +103,6 @@ async function initMemoriesPage() {
     });
   });
 
-  // Keyboard navigation for Lightbox
   document.addEventListener('keydown', (e) => {
     const modal = document.getElementById('lightbox-modal');
     if (modal && !modal.classList.contains('hidden')) {
@@ -131,6 +137,25 @@ function openLightbox(index) {
   modal.classList.remove('hidden');
   modal.classList.add('flex');
   document.body.style.overflow = 'hidden';
+
+  // Google Tag (gtag.js) Event Tracking
+  if (typeof window.trackGAEvent === 'function') {
+    window.trackGAEvent('view_memory', {
+      memory_id: mem.id,
+      memory_title: mem.title,
+      memory_location: mem.location,
+      memory_category: mem.category
+    });
+  }
+
+  // Increment Local Analytics Counter for Admin Dashboard
+  try {
+    const stats = JSON.parse(localStorage.getItem('admin_analytics_stats')) || { articleViews: 0, memoryViews: 0, history: [] };
+    stats.memoryViews = (stats.memoryViews || 0) + 1;
+    stats.history.unshift({ type: 'Memory', title: mem.title, time: new Date().toLocaleTimeString('th-TH') });
+    if (stats.history.length > 20) stats.history.pop();
+    localStorage.setItem('admin_analytics_stats', JSON.stringify(stats));
+  } catch (e) { console.error(e); }
 }
 
 function closeLightbox() {
@@ -146,7 +171,7 @@ function nextLightboxImage() {
   if (activeMemoryIndex < filteredMemories.length - 1) {
     openLightbox(activeMemoryIndex + 1);
   } else {
-    openLightbox(0); // loop back
+    openLightbox(0);
   }
 }
 
@@ -154,11 +179,12 @@ function prevLightboxImage() {
   if (activeMemoryIndex > 0) {
     openLightbox(activeMemoryIndex - 1);
   } else {
-    openLightbox(filteredMemories.length - 1); // loop to end
+    openLightbox(filteredMemories.length - 1);
   }
 }
 
 // Export functions to Window Scope
+window.fetchMemories = fetchMemories;
 window.openLightbox = openLightbox;
 window.closeLightbox = closeLightbox;
 window.nextLightboxImage = nextLightboxImage;

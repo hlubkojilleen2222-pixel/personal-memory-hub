@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | ระบบจัดการหลังบ้าน</title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            amber: { 50: '#fffbeb', 100: '#fef3c7', 500: '#f59e0b', 600: '#d97706', 700: '#b45309' }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/theme.js"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-stone-50 dark:bg-zinc-950 text-stone-800 dark:text-zinc-100 selection:bg-amber-500/20 selection:text-amber-700">
+
+  <!-- Admin Navigation Header -->
+  <header class="sticky top-0 z-40 w-full glass-nav border-b border-stone-200/60 dark:border-zinc-800/80 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5 group">
+        <div class="w-8 h-8 rounded-full bg-amber-600 flex items-center justify-center text-white font-serif-title font-bold text-sm shadow-sm group-hover:scale-105 transition-transform">
+          ⚙️
+        </div>
+        <span class="font-serif-title text-lg font-bold tracking-tight group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+          Admin Dashboard
+        </span>
+      </a>
+
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="text-xs font-semibold text-stone-600 dark:text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors flex items-center gap-1">
+          <span>←</span> กลับหน้าเว็บหลัก
+        </a>
+
+        <button class="theme-toggle-btn p-2 rounded-full text-stone-600 dark:text-zinc-300 hover:bg-stone-200/60 dark:hover:bg-zinc-800 transition-colors">
+          <svg class="w-5 h-5 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="w-5 h-5 block dark:hidden text-stone-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+
+    <!-- 1. Passcode Authentication Section -->
+    <div id="admin-login-section" class="max-w-md mx-auto my-12 bg-white dark:bg-zinc-900 rounded-3xl p-8 shadow-xl border border-stone-200 dark:border-zinc-800 text-center">
+      <div class="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center text-2xl mx-auto mb-4">
+        🔐
+      </div>
+      <h2 class="text-2xl font-bold font-serif-title mb-2">เข้าสู่ระบบหลังบ้าน</h2>
+      <p class="text-stone-500 dark:text-zinc-400 text-xs mb-6">กรอกรหัสผ่าน Admin เพื่อจัดการบทความและความทรงจำ</p>
+
+      <form id="passcode-form" class="space-y-4">
+        <div>
+          <input id="passcode-input" type="password" placeholder="กรอกรหัสผ่าน Admin..." required
+                 class="w-full px-4 py-3 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-stone-800 dark:text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 text-center tracking-widest font-mono">
+          <p id="passcode-error" class="text-xs text-rose-500 font-semibold mt-2 hidden">⚠️ รหัสผ่านไม่ถูกต้อง ลองใหม่อีกครั้ง</p>
+        </div>
+        <button type="submit" class="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm rounded-xl shadow-md transition-all">
+          เข้าสู่ระบบ Admin
+        </button>
+      </form>
+
+      <div class="mt-6 pt-4 border-t border-stone-100 dark:border-zinc-800 text-xs text-stone-400">
+        💡 รหัสผ่านเริ่มต้นคือ: <code class="bg-stone-100 dark:bg-zinc-800 px-2 py-1 rounded font-mono font-bold text-amber-600 dark:text-amber-400">admin123</code>
+      </div>
+    </div>
+
+    <!-- 2. Admin Dashboard Section (Hidden by default) -->
+    <div id="admin-dashboard-section" class="hidden space-y-8">
+      
+      <!-- Top Action Bar -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-stone-200 dark:border-zinc-800">
+        <div>
+          <h1 class="text-2xl font-bold font-serif-title">ระบบจัดการเนื้อหา (Content Management Dashboard)</h1>
+          <p class="text-stone-500 dark:text-zinc-400 text-xs mt-1">สรุปสถิติเนื้อหา เพิ่ม แก้ไข ลบ บทความและภาพถ่ายความทรงจำ พร้อมบันทึกไฟล์ JSON</p>
+        </div>
+        <button id="admin-logout-btn" class="px-4 py-2 bg-stone-200 dark:bg-zinc-800 hover:bg-rose-600 hover:text-white text-stone-700 dark:text-zinc-300 text-xs font-semibold rounded-xl transition-all">
+          🔒 ออกจากระบบ
+        </button>
+      </div>
+
+      <!-- Dashboard Overview Stats Cards Widget -->
+      <div id="admin-overview-dashboard" class="space-y-4">
+        <!-- Injected dynamically by admin.js -->
+      </div>
+
+      <!-- Tab Navigation Bar -->
+      <div class="flex items-center gap-3 border-b border-stone-200 dark:border-zinc-800 pb-4 overflow-x-auto">
+        <button class="admin-tab-btn px-5 py-2.5 rounded-full text-xs font-semibold bg-amber-600 text-white transition-all flex items-center gap-2" data-tab="tab-articles">
+          📝 จัดการบทความ (Articles)
+        </button>
+        <button class="admin-tab-btn px-5 py-2.5 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all flex items-center gap-2" data-tab="tab-memories">
+          🖼️ จัดการความทรงจำ (Memories)
+        </button>
+        <button class="admin-tab-btn px-5 py-2.5 rounded-full text-xs font-semibold bg-stone-100 dark:bg-zinc-800 text-stone-600 dark:text-zinc-400 hover:bg-amber-600 hover:text-white transition-all flex items-center gap-2" data-tab="tab-export">
+          💾 สำรอง / ดาวน์โหลด JSON
+        </button>
+      </div>
+
+      <!-- TAB 1: ARTICLES MANAGER -->
+      <div id="tab-articles" class="admin-tab-pane space-y-8">
+        
+        <!-- Article Form Card -->
+        <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 sm:p-8 border border-stone-200 dark:border-zinc-800 shadow-sm">
+          <h2 class="text-xl font-bold font-serif-title mb-6 flex items-center gap-2">
+            <span>✍️</span> เขียน / แก้ไขบทความ
+          </h2>
+
+          <form id="article-form" class="space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">ชื่อบทความ (Title)</label>
+                <input id="art-title-input" type="text" placeholder="เช่น ความเรียบง่ายกับการค้นพบความสงบ..." required
+                       class="w-full px-4 py-2.5 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">หมวดหมู่ (Category)</label>
+                <select id="art-category-input" class="w-full px-4 py-2.5 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                  <option value="Life">🌿 Life</option>
+                  <option value="Tech">💻 Tech</option>
+                  <option value="Travel">✈️ Travel</option>
+                  <option value="Thoughts">💡 Thoughts</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">เวลาในการอ่าน (Read Time)</label>
+                <input id="art-readtime-input" type="text" placeholder="เช่น 5 นาที"
+                       class="w-full px-4 py-2.5 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">URL รูปภาพปก (Cover Image URL)</label>
+                <input id="art-cover-input" type="text" placeholder="assets/images/article1.jpg หรือ ลิงก์ Unsplash"
+                       class="w-full px-4 py-2.5 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">เรื่องย่อสั้นๆ (Excerpt)</label>
+              <textarea id="art-excerpt-input" rows="2" placeholder="ข้อความเกริ่นนำสั้นๆ สำหรับแสดงในการ์ด..." required
+                        class="w-full px-4 py-2.5 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"></textarea>
+            </div>
+
+            <!-- Content Input & Live Markdown Preview Split -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">เนื้อหาบทความ (รองรับ Markdown: ##, **, >, -)</label>
+                <textarea id="art-content-input" rows="10" placeholder="พิมพ์เนื้อหาบทความแบบ Markdown ที่นี่..." required
+                          class="w-full px-4 py-3 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-sm font-mono focus:ring-2 focus:ring-amber-500 focus:outline-none leading-relaxed"></textarea>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">🔍 ตัวอย่างการแสดงผล (Live Preview)</label>
+                <div id="art-md-preview" class="w-full h-[270px] p-4 rounded-xl border border-stone-200 dark:border-zinc-800 bg-stone-100/50 dark:bg-zinc-900/50 overflow-y-auto prose-custom text-xs sm:text-sm text-stone-700 dark:text-zinc-300">
+                  <p class="text-stone-400 italic">ตัวอย่างเนื้อหาจะแสดงตรงนี้...</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit buttons -->
+            <div class="flex items-center gap-3">
+              <button id="art-submit-btn" type="submit" class="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-sm transition-all">
+                ➕ เพิ่มบทความใหม่
+              </button>
+              <button id="cancel-article-edit-btn" type="button" class="hidden px-6 py-2.5 bg-stone-200 dark:bg-zinc-800 hover:bg-stone-300 text-stone-700 dark:text-zinc-300 text-xs font-semibold rounded-xl transition-all">
+                ยกเลิกการแก้ไข
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Articles List Management -->
+        <div class="space-y-4">
+          <h3 class="text-lg font-bold font-serif-title">รายการบทความทั้งหมดในระบบ</h3>
+          <div id="admin-articles-list" class="space-y-3">
+            <!-- Injected by admin.js -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB 2: MEMORIES MANAGER -->
+      <div id="tab-memories" class="admin-tab-pane hidden space-y-8">
+        
+        <!-- Memory Form Card -->
+        <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 sm:p-8 border border-stone-200 dark:border-zinc-800 shadow-sm">
+          <h2 class="text-xl font-bold font-serif-title mb-6 flex items-center gap-2">
+            <span>🖼️</span> เพิ่ม / แก้ไขภาพความทรงจำ
+          </h2>
+
+          <form id="memory-form" class="space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">ชื่อรูปภาพ / หัวข้อความทรงจำ</label>
+                <input id="mem-title-input" type="text" placeholder="เช่น ยามเย็นที่ชายหาดบางแสน" required
+                       class="w-full px-4 py-2.5 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">วันที่ (Date)</label>
+                <input id="mem-date-input" type="date" required
+                       class="w-full px-4 py-2.5 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">สถานที่ (Location)</label>
+                <input id="mem-location-input" type="text" placeholder="เช่น Chonburi, Thailand" required
+                       class="w-full px-4 py-2.5 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">หมวดหมู่ (Category)</label>
+                <select id="mem-category-input" class="w-full px-4 py-2.5 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                  <option value="Travel">✈️ Travel</option>
+                  <option value="Life">☕ Life</option>
+                  <option value="Nature">🌿 Nature</option>
+                  <option value="Work">🖥️ Work</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Image Source Input: URL or File -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-2xl bg-stone-100/60 dark:bg-zinc-800/40 border border-stone-200/80 dark:border-zinc-800">
+              <div>
+                <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">1. วาง URL รูปภาพ (หรือไฟล์ใน assets/images/)</label>
+                <input id="mem-image-input" type="text" placeholder="assets/images/my-trip.jpg"
+                       class="w-full px-4 py-2.5 rounded-xl border border-stone-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">2. หรือ เลือกไฟล์จากคอมพิวเตอร์ของคุณ</label>
+                <input id="mem-file-input" type="file" accept="image/*"
+                       class="w-full px-3 py-1.5 rounded-xl border border-stone-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">คำบรรยายเรื่องราวภาพถ่าย (Caption)</label>
+              <textarea id="mem-caption-input" rows="3" placeholder="เล่าเรื่องราวความทรงจำในภาพนี้สั้นๆ..." required
+                        class="w-full px-4 py-2.5 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"></textarea>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <button id="mem-submit-btn" type="submit" class="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-sm transition-all">
+                ➕ เพิ่มภาพความทรงจำ
+              </button>
+              <button id="cancel-memory-edit-btn" type="button" class="hidden px-6 py-2.5 bg-stone-200 dark:bg-zinc-800 hover:bg-stone-300 text-stone-700 dark:text-zinc-300 text-xs font-semibold rounded-xl transition-all">
+                ยกเลิกการแก้ไข
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Memories Grid Management -->
+        <div class="space-y-4">
+          <h3 class="text-lg font-bold font-serif-title">รายการความทรงจำทั้งหมดในระบบ</h3>
+          <div id="admin-memories-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <!-- Injected by admin.js -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB 3: EXPORT JSON DATA -->
+      <div id="tab-export" class="admin-tab-pane hidden space-y-6">
+        <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 sm:p-8 border border-stone-200 dark:border-zinc-800 shadow-sm space-y-6">
+          <div>
+            <h2 class="text-xl font-bold font-serif-title mb-2">💾 ส่งออกและเซฟไฟล์ JSON ถาวร (Export JSON Data)</h2>
+            <p class="text-stone-600 dark:text-zinc-400 text-sm leading-relaxed">
+              เมื่อคุณเพิ่มหรือแก้ไขข้อมูลในหน้า Admin ข้อมูลจะถูกแสดงผลบนเว็บทันทีผ่าน LocalStorage หากต้องการ **บันทึกเข้าโค้ดโปรเจกต์** เพื่อนำไป Push ขึ้น GitHub Pages หรือ Vercel ให้กดปุ่มดาวน์โหลดด้านล่างนี้ แล้วนำไฟล์ไปวางทับในโฟลเดอร์ <code class="bg-amber-100 dark:bg-amber-950 px-2 py-0.5 rounded text-amber-800 dark:text-amber-300 font-mono text-xs">data/</code> ครับ
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <button id="export-articles-btn" class="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 text-left transition-all group">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-2xl">📝</span>
+                <span class="text-xs font-bold text-amber-600 dark:text-amber-400 group-hover:translate-x-1 transition-transform">ดาวน์โหลด 📥</span>
+              </div>
+              <h4 class="font-bold text-base text-stone-800 dark:text-zinc-100">ดาวน์โหลด articles.json</h4>
+              <p class="text-xs text-stone-500 dark:text-zinc-400 mt-1">ไฟล์ข้อมูลบทความทั้งหมดที่คุณปรับแต่งล่าสุด</p>
+            </button>
+
+            <button id="export-memories-btn" class="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 text-left transition-all group">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-2xl">🖼️</span>
+                <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition-transform">ดาวน์โหลด 📥</span>
+              </div>
+              <h4 class="font-bold text-base text-stone-800 dark:text-zinc-100">ดาวน์โหลด memories.json</h4>
+              <p class="text-xs text-stone-500 dark:text-zinc-400 mt-1">ไฟล์ข้อมูลคลังภาพถ่ายที่คุณปรับแต่งล่าสุด</p>
+            </button>
+          </div>
+
+          <div class="pt-6 border-t border-stone-200 dark:border-zinc-800 flex items-center justify-between">
+            <div>
+              <h4 class="font-bold text-sm text-stone-800 dark:text-zinc-100">คืนค่าเริ่มต้น (Reset Data)</h4>
+              <p class="text-xs text-stone-500 dark:text-zinc-400">ลบข้อมูลชั่วคราวและคืนค่าเป็นข้อมูลตัวอย่างจากไฟล์ JSON หลัก</p>
+            </div>
+            <button id="reset-defaults-btn" class="px-4 py-2 bg-rose-100 hover:bg-rose-200 text-rose-800 dark:bg-rose-950 dark:text-rose-300 text-xs font-semibold rounded-xl transition-all">
+              ⚠️ รีเซ็ตข้อมูลทั้งหมด
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="border-t border-stone-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-8 text-xs text-stone-500 dark:text-zinc-400 transition-colors mt-auto">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span>⚙️ Personal Memory Hub Admin Dashboard</span>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/articles.js"></script>
+  <script src="assets/js/memories.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>
