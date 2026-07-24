@@ -119,39 +119,6 @@ function openLightbox(index) {
 
   const mem = filteredMemories[activeMemoryIndex];
 
-  // If jQuery & Colorbox plugin loaded, trigger Colorbox popup!
-  if (typeof $ !== 'undefined' && typeof $.colorbox === 'function') {
-    $.colorbox({
-      href: mem.image,
-      title: `<span class="font-serif"><i class="fa-solid fa-camera"></i> ${mem.title} (${mem.date})</span> - <span class="text-xs font-sans text-stone-300">${mem.caption}</span>`,
-      maxWidth: '90%',
-      maxHeight: '90%',
-      transition: 'elastic',
-      speed: 350,
-      opacity: 0.85
-    });
-  }
-
-  const modal = document.getElementById('lightbox-modal');
-  const imgEl = document.getElementById('lightbox-img');
-  const titleEl = document.getElementById('lightbox-title');
-  const dateEl = document.getElementById('lightbox-date');
-  const locEl = document.getElementById('lightbox-location');
-  const captionEl = document.getElementById('lightbox-caption');
-
-  if (!modal || !imgEl) return;
-
-  imgEl.src = mem.image;
-  imgEl.alt = mem.title;
-  titleEl.textContent = mem.title;
-  dateEl.innerHTML = `<i class="fa-solid fa-calendar-days text-amber-500"></i> ${mem.date}`;
-  locEl.innerHTML = `<i class="fa-solid fa-location-dot text-amber-500"></i> ${mem.location}`;
-  captionEl.textContent = mem.caption;
-
-  modal.classList.remove('hidden');
-  modal.classList.add('flex');
-  document.body.style.overflow = 'hidden';
-
   // Google Tag (gtag.js) Event Tracking
   if (typeof window.trackGAEvent === 'function') {
     window.trackGAEvent('view_memory', {
@@ -170,14 +137,24 @@ function openLightbox(index) {
     if (stats.history.length > 20) stats.history.pop();
     localStorage.setItem('admin_analytics_stats', JSON.stringify(stats));
   } catch (e) { console.error(e); }
+
+  // Use Colorbox Popup Viewer directly
+  if (typeof $ !== 'undefined' && typeof $.colorbox === 'function') {
+    $.colorbox({
+      href: mem.image,
+      title: `<span class="font-serif font-bold text-amber-400"><i class="fa-solid fa-camera"></i> ${mem.title} (${mem.date}) — 📍 ${mem.location}</span><br><span class="text-xs font-sans text-stone-300">${mem.caption}</span>`,
+      maxWidth: '90%',
+      maxHeight: '90%',
+      transition: 'elastic',
+      speed: 300,
+      opacity: 0.85
+    });
+  }
 }
 
 function closeLightbox() {
-  const modal = document.getElementById('lightbox-modal');
-  if (modal) {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = 'auto';
+  if (typeof $ !== 'undefined' && typeof $.colorbox === 'function') {
+    $.colorbox.close();
   }
 }
 

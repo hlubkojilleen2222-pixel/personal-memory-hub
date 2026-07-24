@@ -146,39 +146,6 @@
 
   </main>
 
-  <!-- Interactive Lightbox Modal -->
-  <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-lg hidden items-center justify-center p-4 sm:p-8">
-    <button onclick="closeLightbox()" class="absolute top-4 right-4 text-stone-300 hover:text-white p-3 rounded-full bg-black/40 hover:bg-black/80 transition-all z-10">
-      <i class="fa-solid fa-xmark text-xl"></i>
-    </button>
-    <button onclick="prevLightboxImage()" class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-300 hover:text-white p-3 rounded-full bg-black/40 hover:bg-black/80 transition-all z-10">
-      <i class="fa-solid fa-chevron-left text-xl"></i>
-    </button>
-    <button onclick="nextLightboxImage()" class="absolute right-4 top-1/2 -translate-y-1/2 text-stone-300 hover:text-white p-3 rounded-full bg-black/40 hover:bg-black/80 transition-all z-10">
-      <i class="fa-solid fa-chevron-right text-xl"></i>
-    </button>
-
-    <div class="max-w-4xl w-full bg-stone-900 rounded-3xl overflow-hidden shadow-2xl border border-zinc-800 flex flex-col md:flex-row max-h-[85vh] animate__animated animate__zoomIn">
-      <div class="flex-1 bg-black flex items-center justify-center p-2 overflow-hidden">
-        <img id="lightbox-img" src="" alt="" class="max-h-[60vh] md:max-h-[75vh] w-auto object-contain rounded-xl">
-      </div>
-      <div class="w-full md:w-80 p-6 flex flex-col justify-between bg-zinc-900 text-white border-t md:border-t-0 md:border-l border-zinc-800">
-        <div>
-          <div class="flex items-center justify-between text-xs text-amber-400 font-medium mb-3">
-            <span id="lightbox-date"><i class="fa-solid fa-calendar-days"></i> 2026-07-18</span>
-            <span id="lightbox-location"><i class="fa-solid fa-location-dot"></i> Location</span>
-          </div>
-          <h3 id="lightbox-title" class="text-xl font-bold font-serif-title mb-3 text-zinc-100">Title</h3>
-          <p id="lightbox-caption" class="text-stone-300 text-sm leading-relaxed mb-6">Caption description goes here...</p>
-        </div>
-        <div class="pt-4 border-t border-zinc-800 text-xs text-stone-500 flex items-center justify-between">
-          <span>กด ← / → เพื่อสลับรูปภาพ</span>
-          <span>Esc เพื่อปิด</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <footer class="border-t border-stone-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-10 text-xs text-stone-500 dark:text-zinc-400 transition-colors">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2">
