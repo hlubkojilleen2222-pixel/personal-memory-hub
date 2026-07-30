@@ -384,6 +384,68 @@ function initExportAdmin() {
   const exportArticlesBtn = document.getElementById('export-articles-btn');
   const exportMemoriesBtn = document.getElementById('export-memories-btn');
   const resetDefaultsBtn = document.getElementById('reset-defaults-btn');
+  const ghPublishBtn = document.getElementById('gh-publish-btn');
+  const ghSaveSettingsBtn = document.getElementById('gh-save-settings-btn');
+
+  // Load saved GitHub config if available
+  const savedGH = JSON.parse(localStorage.getItem('gh_config')) || {};
+  if (document.getElementById('gh-username-input')) {
+    document.getElementById('gh-username-input').value = savedGH.owner || '';
+    document.getElementById('gh-repo-input').value = savedGH.repo || '';
+    document.getElementById('gh-branch-input').value = savedGH.branch || 'main';
+    document.getElementById('gh-token-input').value = savedGH.token || '';
+  }
+
+  if (ghSaveSettingsBtn) {
+    ghSaveSettingsBtn.addEventListener('click', () => {
+      const owner = document.getElementById('gh-username-input').value.trim();
+      const repo = document.getElementById('gh-repo-input').value.trim();
+      const branch = document.getElementById('gh-branch-input').value.trim() || 'main';
+      const token = document.getElementById('gh-token-input').value.trim();
+
+      localStorage.setItem('gh_config', JSON.stringify({ owner, repo, branch, token }));
+      window.showToast('บันทึกการตั้งค่า GitHub เรียบร้อยแล้ว!');
+    });
+  }
+
+  if (ghPublishBtn) {
+    ghPublishBtn.addEventListener('click', async () => {
+      const owner = document.getElementById('gh-username-input').value.trim();
+      const repo = document.getElementById('gh-repo-input').value.trim();
+      const branch = document.getElementById('gh-branch-input').value.trim() || 'main';
+      const token = document.getElementById('gh-token-input').value.trim();
+
+      if (!owner || !repo || !token) {
+        alert('กรุณากรอก Username, Repo Name และ Personal Access Token ให้ครบก่อนกด Publish ครับ!');
+        return;
+      }
+
+      ghPublishBtn.disabled = true;
+      ghPublishBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> กำลังส่งข้อมูลไป GitHub...';
+
+      try {
+        const articlesStr = localStorage.getItem('custom_articles') || '[]';
+        const memoriesStr = localStorage.getItem('custom_memories') || '[]';
+
+        // 1. Commit articles.json
+        await commitFileToGitHub(owner, repo, branch, token, 'data/articles.json', articlesStr, 'Update articles.json via Admin 1-Click');
+
+        // 2. Commit memories.json
+        await commitFileToGitHub(owner, repo, branch, token, 'data/memories.json', memoriesStr, 'Update memories.json via Admin 1-Click');
+
+        // Save settings for next time
+        localStorage.setItem('gh_config', JSON.stringify({ owner, repo, branch, token }));
+
+        window.showToast('🚀 Publish ขึ้น GitHub สำเร็จ! Vercel / GitHub Pages กำลังสร้างเว็บใหม่ใน 10-30 วินาที');
+      } catch (err) {
+        console.error(err);
+        alert('เกิดข้อผิดพลาดในการ Publish: ' + err.message);
+      } finally {
+        ghPublishBtn.disabled = false;
+        ghPublishBtn.innerHTML = '<i class="fa-solid fa-rocket"></i> 🚀 Publish ขึ้นเว็บจริง 1-Click Auto Commit';
+      }
+    });
+  }
 
   if (exportArticlesBtn) {
     exportArticlesBtn.addEventListener('click', () => {
@@ -411,6 +473,53 @@ function initExportAdmin() {
       }
     });
   }
+}
+
+// GitHub API Commit Helper
+async function commitFileToGitHub(owner, repo, branch, token, filePath, contentString, commitMessage) {
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+  
+  // Get current file SHA if exists
+  let sha = null;
+  try {
+    const getRes = await fetch(`${url}?ref=${branch}`, {
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    if (getRes.ok) {
+      const getData = await getRes.json();
+      sha = getData.sha;
+    }
+  } catch (e) { console.warn('File might be new:', e); }
+
+  // UTF-8 Base64 encode
+  const base64Content = btoa(unescape(encodeURIComponent(contentString)));
+
+  const body = {
+    message: commitMessage,
+    content: base64Content,
+    branch: branch
+  };
+  if (sha) body.sha = sha;
+
+  const putRes = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+
+  if (!putRes.ok) {
+    const errData = await putRes.json();
+    throw new Error(errData.message || 'GitHub API error');
+  }
+
+  return await putRes.json();
 }
 
 function downloadFile(content, fileName, contentType) {

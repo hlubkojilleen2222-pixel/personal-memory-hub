@@ -95,9 +95,46 @@ function renderArticlesGrid(articlesList, targetContainerId = 'articles-containe
   container.innerHTML = articlesList.map(createArticleCardHTML).join('');
 }
 
-// Render Recent Articles on Home Page
+// Render Featured Carousel & Recent Articles on Home Page
 async function initHomeArticles() {
   const articles = await fetchArticles();
+
+  // 1. Featured Carousel Slider
+  const featuredCarousel = document.getElementById('featured-slick-carousel');
+  if (featuredCarousel && articles.length > 0) {
+    const featuredItems = articles.slice(0, 5);
+    featuredCarousel.innerHTML = featuredItems.map((art) => `
+      <div class="px-2 cursor-pointer" onclick="openArticleModal('${art.id}')">
+        <div class="relative rounded-3xl overflow-hidden bg-stone-900 text-white h-72 sm:h-80 shadow-lg group">
+          <img src="${art.coverImage}" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-6 sm:p-8 flex flex-col justify-end">
+            <span class="inline-block px-3 py-1 bg-amber-500 text-xs font-bold rounded-full w-fit mb-2">${art.category}</span>
+            <h3 class="text-xl sm:text-2xl font-bold font-serif-title mb-2 line-clamp-2">${art.title}</h3>
+            <p class="text-xs sm:text-sm text-stone-300 line-clamp-2">${art.excerpt}</p>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    // Initialize or refresh Slick Carousel if loaded
+    if (typeof $ !== 'undefined' && typeof $.fn.slick === 'function') {
+      if ($(featuredCarousel).hasClass('slick-initialized')) {
+        $(featuredCarousel).slick('unslick');
+      }
+      $(featuredCarousel).slick({
+        dots: true,
+        infinite: true,
+        speed: 600,
+        slidesToShow: 1,
+        autoplay: true,
+        autoplaySpeed: 4000,
+        arrows: true,
+        pauseOnHover: true
+      });
+    }
+  }
+
+  // 2. Recent Articles Grid
   const recentContainer = document.getElementById('recent-articles-container');
   if (recentContainer) {
     const recent = articles.slice(0, 3);
@@ -156,7 +193,8 @@ function filterArticles(searchQuery, category) {
 
 // Modal Reader Function
 function openArticleModal(articleId) {
-  const article = allArticles.find((a) => a.id === articleId);
+  const articles = JSON.parse(localStorage.getItem('custom_articles')) || allArticles;
+  const article = articles.find((a) => a.id === articleId);
   if (!article) return;
 
   const modal = document.getElementById('article-modal');
@@ -250,6 +288,20 @@ function showToast(message) {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
+// Auto-sync articles when updated from Admin in another tab
+window.addEventListener('storage', (e) => {
+  if (e.key === 'custom_articles') {
+    fetchArticles().then((articles) => {
+      if (document.getElementById('articles-container')) {
+        renderArticlesGrid(articles);
+      }
+      if (document.getElementById('recent-articles-container')) {
+        initHomeArticles();
+      }
+    });
+  }
+});
 
 // Export to Global Window Scope
 window.fetchArticles = fetchArticles;

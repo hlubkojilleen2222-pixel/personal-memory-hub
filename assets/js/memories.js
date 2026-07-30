@@ -72,10 +72,11 @@ function renderMasonryGrid(memoriesList, targetContainerId = 'memories-grid') {
 
 // Open Full-Screen Split Photo & Story Viewer
 function openFullscreenMemoryViewer(index) {
-  if (index < 0 || index >= filteredMemories.length) return;
+  const memories = JSON.parse(localStorage.getItem('custom_memories')) || filteredMemories;
+  if (index < 0 || index >= memories.length) return;
   activeMemoryIndex = index;
 
-  const mem = filteredMemories[activeMemoryIndex];
+  const mem = memories[activeMemoryIndex];
 
   // Google Tag (gtag.js) Event Tracking
   if (typeof window.trackGAEvent === 'function') {
@@ -198,6 +199,20 @@ async function initMemoriesPage() {
     }
   });
 }
+
+// Auto-sync memories when updated from Admin in another tab
+window.addEventListener('storage', (e) => {
+  if (e.key === 'custom_memories') {
+    fetchMemories().then((memories) => {
+      if (document.getElementById('memories-grid')) {
+        renderMasonryGrid(memories);
+      }
+      if (document.getElementById('home-memories-grid')) {
+        initHomeMemories();
+      }
+    });
+  }
+});
 
 // Export functions to Window Scope
 window.fetchMemories = fetchMemories;

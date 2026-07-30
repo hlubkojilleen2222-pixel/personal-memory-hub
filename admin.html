@@ -80,7 +80,9 @@
         </button>
       </form>
 
-    
+      <div class="mt-6 pt-4 border-t border-stone-100 dark:border-zinc-800 text-xs text-stone-400">
+        <i class="fa-solid fa-key text-amber-500"></i> รหัสผ่านเริ่มต้นคือ: <code class="bg-stone-100 dark:bg-zinc-800 px-2 py-1 rounded font-mono font-bold text-amber-600 dark:text-amber-400">admin123</code>
+      </div>
     </div>
 
     <!-- 2. Admin Dashboard Section (Hidden by default) -->
@@ -279,15 +281,74 @@
 
       </div>
 
-      <!-- TAB 3: EXPORT JSON DATA -->
+      <!-- TAB 3: EXPORT JSON DATA & GITHUB AUTO-PUBLISH -->
       <div id="tab-export" class="admin-tab-pane hidden space-y-6">
+        
+        <!-- 1-Click GitHub Auto Publish Card -->
+        <div class="bg-amber-500/10 dark:bg-amber-950/40 rounded-3xl p-6 sm:p-8 border border-amber-500/30 shadow-md space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-xl font-bold font-serif-title text-amber-900 dark:text-amber-300 flex items-center gap-2">
+                <i class="fa-solid fa-rocket"></i> 🚀 Publish ขึ้นเว็บจริง 1-Click (GitHub Auto Commit & Deploy)
+              </h2>
+              <p class="text-stone-600 dark:text-zinc-400 text-xs sm:text-sm mt-1">
+                กดปุ่มเดียว ข้อมูลบทความและความทรงจำใหม่จะถูกส่งไปอัปเดตไฟล์บน GitHub ให้โดยอัตโนมัติ ไม่ต้องรัน Git และไม่ต้องดาวน์โหลดไฟล์!
+              </p>
+            </div>
+            <span class="px-3 py-1 bg-amber-500 text-white font-bold text-xs rounded-full hidden sm:inline-block shadow-sm">
+              แนะนำ 🌟
+            </span>
+          </div>
+
+          <!-- GitHub Credentials Form Inputs -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white/80 dark:bg-zinc-900/80 p-5 rounded-2xl border border-amber-200 dark:border-zinc-800">
+            <div>
+              <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">GitHub Username</label>
+              <input id="gh-username-input" type="text" placeholder="เช่น your-username"
+                     class="w-full px-3 py-2 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-xs font-mono focus:ring-2 focus:ring-amber-500 focus:outline-none">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">Repo Name (ชื่อคลังโค้ด)</label>
+              <input id="gh-repo-input" type="text" placeholder="เช่น personal-memory-hub"
+                     class="w-full px-3 py-2 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-xs font-mono focus:ring-2 focus:ring-amber-500 focus:outline-none">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1">Branch (สาขา)</label>
+              <input id="gh-branch-input" type="text" placeholder="main" value="main"
+                     class="w-full px-3 py-2 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-xs font-mono focus:ring-2 focus:ring-amber-500 focus:outline-none">
+            </div>
+
+            <div class="sm:col-span-3">
+              <label class="block text-xs font-bold text-stone-700 dark:text-zinc-300 mb-1 flex items-center justify-between">
+                <span>GitHub Personal Access Token (PAT)</span>
+                <a href="https://github.com/settings/tokens" target="_blank" class="text-amber-600 dark:text-amber-400 font-normal hover:underline">สร้าง Token ใหม่ที่นี่ ↗</a>
+              </label>
+              <input id="gh-token-input" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx หรือ github_pat_xxxx"
+                     class="w-full px-3 py-2 rounded-xl border border-stone-300 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800 text-xs font-mono focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              <p class="text-[11px] text-stone-400 mt-1">💡 ปลอดภัย: Token จะบันทึกเฉพาะใน LocalStorage บนเบราว์เซอร์ของเครื่องคุณเท่านั้น</p>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center gap-3">
+            <button id="gh-publish-btn" class="px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center gap-2">
+              <i class="fa-solid fa-rocket"></i> 🚀 Publish ขึ้นเว็บจริง 1-Click Auto Commit
+            </button>
+            <button id="gh-save-settings-btn" class="px-4 py-3 bg-stone-200 dark:bg-zinc-800 hover:bg-stone-300 text-stone-700 dark:text-zinc-300 font-semibold text-xs rounded-xl transition-all">
+              <i class="fa-solid fa-floppy-disk"></i> บันทึกการตั้งค่า GitHub
+            </button>
+          </div>
+        </div>
+
         <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 sm:p-8 border border-stone-200 dark:border-zinc-800 shadow-sm space-y-6">
           <div>
             <h2 class="text-xl font-bold font-serif-title mb-2 flex items-center gap-2">
-              <i class="fa-solid fa-download text-amber-600"></i> ส่งออกและเซฟไฟล์ JSON ถาวร (Export JSON Data)
+              <i class="fa-solid fa-download text-amber-600"></i> หรือ ดาวน์โหลดไฟล์ JSON ไปทับในโปรเจกต์เอง (Manual Backup)
             </h2>
             <p class="text-stone-600 dark:text-zinc-400 text-sm leading-relaxed">
-              เมื่อคุณเพิ่มหรือแก้ไขข้อมูลในหน้า Admin ข้อมูลจะถูกแสดงผลบนเว็บทันทีผ่าน LocalStorage หากต้องการ **บันทึกเข้าโค้ดโปรเจกต์** เพื่อนำไป Push ขึ้น GitHub Pages หรือ Vercel ให้กดปุ่มดาวน์โหลดด้านล่างนี้ แล้วนำไฟล์ไปวางทับในโฟลเดอร์ <code class="bg-amber-100 dark:bg-amber-950 px-2 py-0.5 rounded text-amber-800 dark:text-amber-300 font-mono text-xs">data/</code> ครับ
+              หากต้องการสำรองข้อมูลเป็นไฟล์เดี่ยว สามารถกดปุ่มดาวน์โหลดไฟล์ `articles.json` และ `memories.json` ด้านล่างนี้ได้ครับ
             </p>
           </div>
 
